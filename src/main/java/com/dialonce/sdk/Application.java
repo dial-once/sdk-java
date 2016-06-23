@@ -16,9 +16,11 @@ public class Application {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
 
-        if (token == null) {
-            new IVR(this).init();
-        }
+        this.token = new IVR(this).init();
+    }
+
+    public Application(String accessToken) {
+        this.token = new Token(accessToken);
     }
 
     public String getApiKey() {
@@ -31,10 +33,6 @@ public class Application {
 
     public Token getToken() {
         return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
     }
 
     @Override

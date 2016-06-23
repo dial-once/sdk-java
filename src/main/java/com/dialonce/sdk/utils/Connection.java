@@ -73,8 +73,7 @@ public class Connection {
         try {
             call();
             return connection.getResponseCode();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignore) {
             return -1;
         }
     }
@@ -130,6 +129,7 @@ public class Connection {
         } else if (method.equals(METHOD_POST)) {
             return url;
         } else {
+            // should not happen since method setter is not exposed
             throw new Exception("Method '" + method + "' is not supported!");
         }
     }

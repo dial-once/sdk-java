@@ -14,8 +14,6 @@ public class Token {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
-//    response: {"access_token":"e39531e4-6a9b-448b-b150-02679d4cc6a4","token_type":"Bearer","expire_at":"2017-06-18T09:34:03.526Z"}
-
     @SerializedName("access_token")
     private String accessToken;
     @SerializedName("token_type")
@@ -23,7 +21,17 @@ public class Token {
     @SerializedName("expire_at")
     private Date expireAt;
 
-    public Token() { }
+    private boolean isFromCredentials = false;
+
+    public Token() {
+        this.isFromCredentials = true;
+    }
+
+    public Token(String accessToken) {
+        this.accessToken = accessToken;
+        this.tokenType = "Bearer";
+        this.isFromCredentials = false;
+    }
 
     public static Token parse(String jsonString) {
         Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
@@ -35,18 +43,26 @@ public class Token {
     }
 
     public boolean isValid() {
-        return expireAt != null &&
-                expireAt.getTime() > System.currentTimeMillis();
+        return accessToken != null && tokenType != null &&
+                (!isFromCredentials ||
+                (expireAt != null &&
+                expireAt.getTime() > System.currentTimeMillis()));
     }
 
     public String getAccessToken() {
         return accessToken;
     }
+
     public String getTokenType() {
         return tokenType;
     }
+
     public Date getExpireAt() {
         return expireAt;
+    }
+
+    public void setFromCredentials(boolean fromCredentials) {
+        isFromCredentials = fromCredentials;
     }
 
     @Override

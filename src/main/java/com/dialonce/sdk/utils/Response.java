@@ -8,6 +8,32 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Response {
 
+    public static class Error {
+
+        @SerializedName("message")
+        private String message;
+        @SerializedName("status")
+        private int status;
+
+        public Error() {}
+
+        public String getMessage() {
+            return message;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        @Override
+        public String toString() {
+            return "Error{" +
+                    "message='" + message + '\'' +
+                    ", status=" + status +
+                    '}';
+        }
+    }
+
     public static class Log {
 
         @SerializedName("success")

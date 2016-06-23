@@ -1,6 +1,8 @@
 package com.dialonce.sdk;
 
+import com.dialonce.sdk.exceptions.IVRException;
 import com.dialonce.sdk.utils.Connection;
+import com.dialonce.sdk.exceptions.InvalidTokenException;
 import com.dialonce.sdk.utils.Response;
 import com.dialonce.sdk.utils.Token;
 import com.google.gson.Gson;
@@ -33,10 +35,13 @@ public class IVR {
     private String called;
 
     IVR(Application app) {
-        this.app = app;
+        this(app, null, null);
     }
 
     public IVR(Application app, String caller, String called) {
+        if (app == null) {
+            throw new RuntimeException("Application can't be null!");
+        }
         this.app = app;
         this.caller = caller;
         this.called = called;
@@ -48,7 +53,7 @@ public class IVR {
      *
      * @throws IOException
      */
-    public void init() throws Exception {
+    public Token init() throws Exception {
 
         Connection connection = Connection
                 .post(SERVER + ENDPOINT_INIT)
@@ -57,11 +62,10 @@ public class IVR {
                 .put("client_secret", app.getApiSecret());
 
         if (connection.isSuccess()) {
-            Token token = Token.parse(connection.getResponse());
-            app.setToken(token);
+            return Token.parse(connection.getResponse());
         } else {
-
-            // TODO throw error
+            throw new IVRException(
+                    new Gson().fromJson(connection.getResponse(), Response.Error.class));
         }
     }
 
@@ -73,19 +77,22 @@ public class IVR {
      */
     public boolean log(String type) throws Exception {
 
-        // TODO check if token is valid
+        if (!app.getToken().isValid()) {
+            throw new InvalidTokenException();
+        }
 
         Connection connection = Connection
                 .post(SERVER + ENDPOINT_LOG)
                 .authorization(app.getToken().getAuthorization())
-                .put("type", "call-start")
+                .put("type", type)
                 .put("called", called)
                 .put("caller", caller);
 
         if (connection.isSuccess()) {
             return new Gson().fromJson(connection.getResponse(), Response.Log.class).isSuccess();
         } else {
-            return false;
+            throw new IVRException(
+                    new Gson().fromJson(connection.getResponse(), Response.Error.class));
         }
     }
 
@@ -94,7 +101,9 @@ public class IVR {
      */
     public boolean isEligible() throws Exception {
 
-        // TODO check if token is valid
+        if (!app.getToken().isValid()) {
+            throw new InvalidTokenException();
+        }
 
         Connection connection = Connection
                 .get(SERVER + ENDPOINT_IS_ELIGIBLE)
@@ -106,7 +115,8 @@ public class IVR {
             return new Gson().fromJson(connection.getResponse(), Response.IsEligible.class)
                     .isEligible();
         } else {
-            return false;
+            throw new IVRException(
+                    new Gson().fromJson(connection.getResponse(), Response.Error.class));
         }
     }
 
@@ -119,7 +129,9 @@ public class IVR {
      */
     public boolean isMobile(String cultureISO) throws Exception {
 
-        // TODO check if token is valid
+        if (!app.getToken().isValid()) {
+            throw new InvalidTokenException();
+        }
 
         Connection connection = Connection
                 .get(SERVER + ENDPOINT_IS_MOBILE)
@@ -134,7 +146,8 @@ public class IVR {
             return new Gson().fromJson(connection.getResponse(), Response.IsMobile.class)
                     .isMobile();
         } else {
-            return false;
+            throw new IVRException(
+                    new Gson().fromJson(connection.getResponse(), Response.Error.class));
         }
     }
 
@@ -145,12 +158,13 @@ public class IVR {
      */
     public boolean serviceRequest() throws Exception {
 
-        // TODO check if token is valid
+        if (!app.getToken().isValid()) {
+            throw new InvalidTokenException();
+        }
 
         Connection connection = Connection
                 .post(SERVER + ENDPOINT_SERVICE_REQUEST)
                 .authorization(app.getToken().getAuthorization())
-                .put("type", "call-start")
                 .put("caller", caller)
                 .put("called", called);
 
@@ -158,7 +172,8 @@ public class IVR {
             return new Gson().fromJson(connection.getResponse(), Response.ServiceRequest.class)
                     .isSuccess();
         } else {
-            return false;
+            throw new IVRException(
+                    new Gson().fromJson(connection.getResponse(), Response.Error.class));
         }
     }
 }
