@@ -131,7 +131,7 @@ public class Connection {
             return url;
         } else {
             // should not happen since method setter is not exposed
-            throw new RuntimeException("Method '" + method + "' is not supported!");
+            throw new UnsupportedOperationException("Method '" + method + "' is not supported!");
         }
     }
 
