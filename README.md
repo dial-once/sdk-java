@@ -10,7 +10,7 @@ Grab via Maven:
 <dependency>
   <groupId>com.dialonce.sdk</groupId>
   <artifactId>dialonce-sdk-java</artifactId>
-  <version>1.0</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
