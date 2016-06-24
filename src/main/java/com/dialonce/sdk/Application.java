@@ -1,6 +1,9 @@
 package com.dialonce.sdk;
 
+import com.dialonce.sdk.exceptions.IVRException;
 import com.dialonce.sdk.utils.Token;
+
+import java.io.IOException;
 
 /**
  * Created by Dusan Pesic on 23-Jun-16.
@@ -12,7 +15,7 @@ public class Application {
     private String apiSecret;
     private Token token;
 
-    public Application(String apiKey, String apiSecret) throws Exception {
+    public Application(String apiKey, String apiSecret) throws IOException, IVRException {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
 

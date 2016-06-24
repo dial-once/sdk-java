@@ -1,6 +1,7 @@
 package com.dialonce.sdk.utils;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -78,7 +79,7 @@ public class Connection {
         }
     }
 
-    public String getResponse() throws Exception {
+    public String getResponse() throws IOException {
 
         if (response == null) {
 
@@ -100,7 +101,7 @@ public class Connection {
         return response;
     }
 
-    private void call() throws Exception {
+    private void call() throws IOException {
 
         if (connection == null) {
 
@@ -123,14 +124,14 @@ public class Connection {
         }
     }
 
-    private String composeUrl() throws Exception {
+    private String composeUrl() throws UnsupportedEncodingException {
         if (method.equals(METHOD_GET)) {
             return url + "?" + buildParams(CHARSET_UTF8);
         } else if (method.equals(METHOD_POST)) {
             return url;
         } else {
             // should not happen since method setter is not exposed
-            throw new Exception("Method '" + method + "' is not supported!");
+            throw new RuntimeException("Method '" + method + "' is not supported!");
         }
     }
 

@@ -40,7 +40,7 @@ public class IVR {
 
     public IVR(Application app, String caller, String called) {
         if (app == null) {
-            throw new RuntimeException("Application can't be null!");
+            throw new NullPointerException("Application can't be null!");
         }
         this.app = app;
         this.caller = caller;
@@ -53,7 +53,7 @@ public class IVR {
      *
      * @throws IOException
      */
-    public Token init() throws Exception {
+    public Token init() throws IOException, IVRException {
 
         Connection connection = Connection
                 .post(SERVER + ENDPOINT_INIT)
@@ -73,9 +73,8 @@ public class IVR {
      * TODO add method description
      *
      * @param type one of the {@link LogType} constants
-     * @throws Exception
      */
-    public boolean log(String type) throws Exception {
+    public boolean log(String type) throws InvalidTokenException, IOException, IVRException {
 
         if (!app.getToken().isValid()) {
             throw new InvalidTokenException();
@@ -99,7 +98,7 @@ public class IVR {
     /**
      * Method used to know if user must be proposed the service request message.
      */
-    public boolean isEligible() throws Exception {
+    public boolean isEligible() throws InvalidTokenException, IOException, IVRException {
 
         if (!app.getToken().isValid()) {
             throw new InvalidTokenException();
@@ -127,7 +126,8 @@ public class IVR {
      *
      *  @param cultureISO - If number is provided on international format, no need for cultureISO.
      */
-    public boolean isMobile(String cultureISO) throws Exception {
+    public boolean isMobile(String cultureISO)
+            throws InvalidTokenException, IOException, IVRException {
 
         if (!app.getToken().isValid()) {
             throw new InvalidTokenException();
@@ -156,7 +156,7 @@ public class IVR {
      * (answered yes to the service proposal message)
      *
      */
-    public boolean serviceRequest() throws Exception {
+    public boolean serviceRequest() throws InvalidTokenException, IOException, IVRException {
 
         if (!app.getToken().isValid()) {
             throw new InvalidTokenException();
