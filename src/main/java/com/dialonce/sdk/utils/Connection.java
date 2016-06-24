@@ -53,7 +53,7 @@ public class Connection {
         this.url = url;
         this.method = method;
 
-        this.params = new LinkedHashMap<String, Object>();
+        this.params = new LinkedHashMap<>();
     }
 
     public Connection put(String key, Object value) {
