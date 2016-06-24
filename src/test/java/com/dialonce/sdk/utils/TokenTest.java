@@ -41,7 +41,7 @@ public class TokenTest {
         assertNull(token.getAccessToken());
         assertNull(token.getTokenType());
         assertNull(token.getExpireAt());
-        assertEquals("null null", token.getAuthorization());
+        assertNull(token.getAuthorization());
         assertFalse(token.isValid());
     }
 

@@ -39,14 +39,19 @@ public class Token {
     }
 
     public String getAuthorization() {
-        return tokenType + " " + accessToken;
+        if (tokenType != null && accessToken != null) {
+            return tokenType + " " + accessToken;
+        }
+        return null;
     }
 
     public boolean isValid() {
-        return accessToken != null && tokenType != null &&
-                (!isFromCredentials ||
-                (expireAt != null &&
-                expireAt.getTime() > System.currentTimeMillis()));
+        return getAuthorization() != null &&
+                (!isFromCredentials || !isTokenExpired());
+    }
+
+    private boolean isTokenExpired() {
+        return expireAt == null || expireAt.getTime() < System.currentTimeMillis();
     }
 
     public String getAccessToken() {
