@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Response {
 
+    private Response() {}
+
     public static class Error {
 
         @SerializedName("message")

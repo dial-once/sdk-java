@@ -20,6 +20,7 @@ public class IVR {
         public static final String CALL_END = "call-end";
         public static final String ANSWER_GET_SMS = "answer-get-sms";
         public static final String ANSWER_NO_SMS = "answer-no-sms";
+        private LogType() { }
     }
 
     private static final String SERVER = "http://api.dialonce.io";
