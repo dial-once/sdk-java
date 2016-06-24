@@ -66,17 +66,13 @@ public class Connection {
         return this;
     }
 
-    public boolean isSuccess() {
+    public boolean isSuccess() throws IOException {
         return getResponseCode() == HttpURLConnection.HTTP_OK;
     }
 
-    public int getResponseCode() {
-        try {
-            call();
-            return httpURLConnection.getResponseCode();
-        } catch (Exception ignore) {
-            return -1;
-        }
+    public int getResponseCode() throws IOException {
+        call();
+        return httpURLConnection.getResponseCode();
     }
 
     public String getResponse() throws IOException {

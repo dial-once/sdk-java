@@ -2,9 +2,12 @@ package com.dialonce.sdk.utils;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by Dusan Pesic on 23-Jun-16.
@@ -16,35 +19,55 @@ public class ConnectionTest {
     public void testNoProtocol() {
         Connection connection = Connection
                 .get("api.dialonce.io");
-        assertEquals(-1, connection.getResponseCode());
+        try {
+            assertEquals(-1, connection.getResponseCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
     public void testUnknownHost() {
         Connection connection = Connection
                 .get("http://qwerty");
-        assertEquals(-1, connection.getResponseCode());
+        try {
+            assertEquals(-1, connection.getResponseCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
     public void testUnauthorized() {
         Connection connection = Connection
                 .get("http://api.dialonce.io/unauthorized");
-        assertEquals(401, connection.getResponseCode());
+        try {
+            assertEquals(401, connection.getResponseCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
     public void testNotFound() {
         Connection connection = Connection
                 .get("https://github.com/dial-once/gateway-http");
-        assertEquals(404, connection.getResponseCode());
+        try {
+            assertEquals(404, connection.getResponseCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
     public void testValidRequest() {
         Connection connection = Connection
                 .get("http://www.google.com");
-        assertEquals(200, connection.getResponseCode());
+        try {
+            assertEquals(200, connection.getResponseCode());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -54,7 +77,11 @@ public class ConnectionTest {
                 .put("grant_type", "client_credentials")
                 .put("client_id", "qpvao53b1x10z7u3906wvgzmvexuxwxj")
                 .put("client_secret", "56g5jvhlciv9e0l4izccjqkf54okh21jbn4d4yj7");
-        assertTrue(connection.isSuccess());
+        try {
+            assertTrue(connection.isSuccess());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -62,6 +89,10 @@ public class ConnectionTest {
         Connection connection = Connection
                 .post("http://api.dialonce.io//oauth/token")
                 .put("invalidParam", "value");
-        assertFalse(connection.isSuccess());
+        try {
+            assertFalse(connection.isSuccess());
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 }
