@@ -37,7 +37,7 @@ public class Connection {
     private String authorization;
     private String method;
 
-    private HttpURLConnection connection;
+    private HttpURLConnection httpURLConnection;
 
     private String response;
 
@@ -73,7 +73,7 @@ public class Connection {
     public int getResponseCode() {
         try {
             call();
-            return connection.getResponseCode();
+            return httpURLConnection.getResponseCode();
         } catch (Exception ignore) {
             return -1;
         }
@@ -84,7 +84,7 @@ public class Connection {
         if (response == null) {
 
             InputStream responseStream =
-                    isSuccess() ? connection.getInputStream() : connection.getErrorStream();
+                    isSuccess() ? httpURLConnection.getInputStream() : httpURLConnection.getErrorStream();
 
             BufferedReader input = new BufferedReader(new InputStreamReader(responseStream));
             StringBuilder responseBuilder = new StringBuilder();
@@ -93,7 +93,7 @@ public class Connection {
                 responseBuilder.append(line);
             }
             input.close();
-            connection.disconnect();
+            httpURLConnection.disconnect();
 
             response = responseBuilder.toString();
         }
@@ -103,20 +103,20 @@ public class Connection {
 
     private void call() throws IOException {
 
-        if (connection == null) {
+        if (httpURLConnection == null) {
 
-            connection = (HttpURLConnection) new URL(composeUrl()).openConnection();
-            connection.setRequestProperty(HEADER_ACCEPT_CHARSET, CHARSET_UTF8);
-            connection.setRequestProperty(HEADER_ACCEPT, CONTENT_TYPE_JSON);
+            httpURLConnection = (HttpURLConnection) new URL(composeUrl()).openConnection();
+            httpURLConnection.setRequestProperty(HEADER_ACCEPT_CHARSET, CHARSET_UTF8);
+            httpURLConnection.setRequestProperty(HEADER_ACCEPT, CONTENT_TYPE_JSON);
 
             if (authorization != null && authorization.length() > 0) {
-                connection.setRequestProperty(HEADER_AUTHORIZATION, authorization);
+                httpURLConnection.setRequestProperty(HEADER_AUTHORIZATION, authorization);
             }
 
             if (method.equals(METHOD_POST)) {
-                connection.setDoOutput(true);
-                connection.setRequestProperty(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM);
-                OutputStream outputStream = connection.getOutputStream();
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestProperty(HEADER_CONTENT_TYPE, CONTENT_TYPE_FORM);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
                 outputStream.write(buildParams(CHARSET_UTF8).getBytes());
                 outputStream.flush();
                 outputStream.close();
