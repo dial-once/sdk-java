@@ -15,7 +15,9 @@ public class Response {
         @SerializedName("status")
         private int status;
 
-        public Error() {}
+        public Error() {
+            // Mandatory empty public constructor for use by GSON.
+        }
 
         public String getMessage() {
             return message;
@@ -39,7 +41,9 @@ public class Response {
         @SerializedName("success")
         private boolean success;
 
-        public Log() {}
+        public Log() {
+            // Mandatory empty public constructor for use by GSON.
+        }
 
         public boolean isSuccess() {
             return success;
@@ -58,7 +62,9 @@ public class Response {
         @SerializedName("eligible")
         private boolean eligible;
 
-        public IsEligible() {}
+        public IsEligible() {
+            // Mandatory empty public constructor for use by GSON.
+        }
 
         public boolean isEligible() {
             return eligible;
@@ -77,7 +83,9 @@ public class Response {
         @SerializedName("mobile")
         private boolean mobile;
 
-        public IsMobile() {}
+        public IsMobile() {
+            // Mandatory empty public constructor for use by GSON.
+        }
 
         public boolean isMobile() {
             return mobile;
@@ -96,7 +104,9 @@ public class Response {
         @SerializedName("success")
         private boolean success;
 
-        public ServiceRequest( ) {}
+        public ServiceRequest( ) {
+            // Mandatory empty public constructor for use by GSON.
+        }
 
         public boolean isSuccess() {
             return success;
