@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/sdk-jave
+    working_directory: ~/sdk-java
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
