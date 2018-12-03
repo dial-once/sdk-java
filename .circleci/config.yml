@@ -6,7 +6,7 @@ jobs:
       - image: circleci/openjdk:10-jdk-browsers
     steps:
       - checkout
-      - run: mvn verify
+      - run: mvn clean install > log-file.log
       - restore_cache:
           keys:
             - v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
