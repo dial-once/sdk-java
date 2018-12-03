@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/sdk-java
     docker:
-      - image: circleci/openjdk:8-jdk-browsers
+      - image: circleci/openjdk:10-jdk-browsers
     steps:
       - checkout
       - run: mvn verify
