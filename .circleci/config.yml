@@ -6,16 +6,16 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
-            - v1-dependencies-{{ .Branch }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies
-      - run: java -version
-      - run: mvn dependency:go-offline # gets the project dependencies
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - run: mvn package # run the actual tests
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
+      #       - v1-dependencies-{{ .Branch }}
+      #       # fallback to using the latest cache if no exact match is found
+      #       - v1-dependencies
+      - run: echo $JAVA_HOME
+      # - run: mvn dependency:go-offline # gets the project dependencies
+      # - save_cache:
+      #     paths:
+      #       - ~/.m2
+      #     key: v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
+      # - run: mvn package # run the actual tests
