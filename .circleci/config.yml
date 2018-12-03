@@ -22,4 +22,4 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - run: mvn -fn test
+      - run: mvn package # run the actual tests
