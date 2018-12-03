@@ -6,6 +6,10 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
       - checkout
+      - run: |
+          echo ${JAVA_HOME}/javac
+          echo ${JAVA}/javac
+          echo ${JAVA_1_8}/javac
       - restore_cache:
           keys:
             - v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
@@ -18,4 +22,4 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - run: mvn package # run the actual tests
+      - run: mvn -fn test
