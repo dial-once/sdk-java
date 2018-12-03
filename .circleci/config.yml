@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/sdk-java
     docker:
-      - image: circleci/openjdk:7-jdk-browsers
+      - image: circleci/openjdk:7
     steps:
       - checkout
       - restore_cache:
@@ -12,7 +12,7 @@ jobs:
             - v1-dependencies-{{ .Branch }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies
-      - run: mvn dependency:go-offline # gets the project dependencies
+      - run: mvn dependency:go-offline && java -version # gets the project dependencies
       - save_cache:
           paths:
             - ~/.m2
