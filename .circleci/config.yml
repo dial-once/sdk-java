@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/sdk-java
     machine:
       java:
-        version: oraclejdk8
+        version: 'oraclejdk8'
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
